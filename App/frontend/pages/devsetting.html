@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device Controll</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+        }
+        .login-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            width: 100%;
+            max-width: 400px;
+        }
+        .logo {
+            display: block;
+            margin: 0 auto 20px;
+            max-width: 150px;
+        }
+        .input-field {
+            display: block;
+            width: 95%;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .login-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            opacity: 0.9;
+            border-radius: 3px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .del-button {
+            background-color: #e74444;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            cursor: pointer;
+            width: 20%;
+            opacity: 0.9;
+            border-radius: 3px;
+            margin-top: 10px;
+            float: right;
+        }
+        .test-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            cursor: pointer;
+            width: 20%;
+            opacity: 0.9;
+            border-radius: 3px;
+            margin-top: 10px;
+            float: center;
+        }
+        .device-status {
+            float: right;
+        }
+        .stat {
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <form>
+            <div>
+                <span class="input-field">Device 1<span class="device-status">Connected</span></span>
+            </div>
+  
+          <button type="submit" class="login-button" formaction="pages/devicelist.html">Toggle</button>
+          <div class="stat">Stat 1</div>
+          <div class="stat">Stat 2</div>
+          <div class="stat">Stat 3</div>
+          <div class="stat">Stat 4</div>
+          <button type="submit" class="test-button" formaction="devicelist.html">Test</button>
+          <button type="submit" class="del-button" formaction="devicelist.html">Deleate</button>
+      </form>
+  </div>
+
+</body>
+</html>

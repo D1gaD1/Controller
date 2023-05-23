@@ -1,0 +1,30 @@
+import paho.mqtt.client as mqtt
+from flask import Flask, jsonify
+
+app = Flask(__name__)
+
+# Store the device list globally
+device_list = []
+
+def on_connect(client, userdata, flags, rc):
+    # You might need to adjust the topic based on your MQTT configuration
+    client.subscribe("zigbee2mqtt/#")
+
+def on_message(client, userdata, msg):
+    global device_list
+    # Adjust this based on the structure of your MQTT messages
+    device_list = msg.payload.decode()
+
+client = mqtt.Client()
+client.on_connect = on_connect
+client.on_message = on_message
+client.connect("localhost", 1883, 60)
+client.loop_start()
+
+@app.route('/getDeviceList', methods=['GET'])
+def get_device_list():
+    global device_list
+    return jsonify(device_list)
+
+if __name__ == '__main__':
+    app.run(debug=True)

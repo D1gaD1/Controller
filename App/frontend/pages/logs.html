@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logs</title>
+</head>
+<body>
+    <ul id="logList">
+        <!-- Logs will be listed here by JavaScript -->
+    </ul>
+
+    <script>
+        window.onload = function() {
+            fetch('http://127.0.0.1:5000/getLogs', {
+                method: 'GET',
+                credentials: 'include'
+            })
+                .then(response => response.json())
+                .then(data => {
+                    var logList = document.getElementById('logList');
+                    logList.innerHTML = '';
+
+                    data.forEach(log => {
+                        var li = document.createElement('li');
+                        li.textContent = log;
+                        logList.appendChild(li);
+                    });
+                });
+        }
+    </script>
+</body>
+</html>

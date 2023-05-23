@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f7f7f7;
+        }
+        .button {
+            padding: 10px 15px;
+            margin: 0 10px 20px 0;
+            border: none;
+            color: white;
+            background-color: #4CAF50;
+            cursor: pointer;
+        }
+        .device-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .device-list li {
+            padding: 10px;
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            margin-bottom: 10px;
+        }
+        .device-name {
+            cursor: pointer;
+        }
+        .device-status {
+            float: right;
+        }
+        .topnav {
+        background-color: #4CAF50;
+        overflow: hidden;
+        }
+
+        /* Style the links inside the navigation bar */
+        .topnav a {
+        float: left;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 17px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+        /* Change the color of links on hover */
+        .topnav a:hover {
+        background-color: #ddd;
+        color: black;
+        }
+
+        /* Add a color to the active/current link */
+        .topnav a.active {
+        background-color: #04AA6D;
+        color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="topnav">
+        <a id="addDeviceBtn">Add New Device</a>
+        <a href="/pages/logs.html" target="_blank">Logs</a>
+        <a href="/index.html">Log out</a>
+    </div>
+
+    <ul id="connectedDeviceList" class="device-list">
+        <!-- Connected devices will be listed here by JavaScript -->
+    </ul>
+
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <h2>Available Devices</h2>
+            <ul id="availableDeviceList" class="device-list">
+                <!-- Available devices will be listed here by JavaScript -->
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        var modal = document.getElementById("myModal");
+        var btn = document.getElementById("addDeviceBtn");
+    
+        btn.onclick = function() {
+            modal.style.display = "block";
+            fetchAvailableDevices();
+        }
+    
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    
+        function fetchAvailableDevices() {
+            fetch('https://controllerbackend.herokuapp.com/backend/login.py', {
+                method: 'GET',
+                credentials: 'include'
+            })
+            .then(response => response.json())
+            .then(data => {
+                var availableDeviceList = document.getElementById('availableDeviceList');
+                availableDeviceList.innerHTML = '';
+
+                data.forEach((device, index) => {
+                    var li = document.createElement('li');
+                    li.textContent = device;
+                    li.id = 'device-' + index;
+                    li.className = 'device-name';
+                    li.onclick = function() {
+                        addDeviceToList(device);
+                        saveDevice(device, li.id);
+                    }
+                    availableDeviceList.appendChild(li);
+                });
+            });
+        }
+
+        function addDeviceToList(deviceName) {
+            var connectedDeviceList = document.getElementById('connectedDeviceList');
+            var li = document.createElement('li');
+            li.textContent = deviceName;
+            li.className = 'device-name';
+            connectedDeviceList.appendChild(li);
+        }
+
+        function saveDevice(deviceName, deviceId) {
+            fetch('https://controllerbackend.herokuapp.com/backend/login.py', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ deviceName: deviceName }),
+                credentials: 'include'
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                removeDeviceFromAvailableList(deviceId);
+            });
+        }
+
+        function removeDeviceFromAvailableList(deviceId) {
+            var deviceElement = document.getElementById(deviceId);
+            deviceElement.remove();
+        }
+    </script>
+</body>
+</html>
