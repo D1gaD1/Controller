@@ -1,0 +1,2 @@
+web: gunicorn flaskApp:app
+mqtt_test: python mqtt_test.py
