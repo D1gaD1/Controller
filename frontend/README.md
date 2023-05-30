@@ -1,5 +1,11 @@
 # base
 
+## Frontend hosting
+
+```
+https://controllerfrontend.herokuapp.com
+```
+
 ## Project setup
 
 ```
